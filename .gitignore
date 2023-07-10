@@ -1,5 +1,5 @@
 /target
 .env
-dev.db*
+*.db*
 ideas
 .idea
