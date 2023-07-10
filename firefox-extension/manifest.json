@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "shared-bookmarks",
+  "version": "1.0",
+  "description": "Share special bookmarks with a group.",
+  "icons": {
+    "48": "icon.png"
+  },
+
+  "permissions": ["activeTab"],
+
+  "page_action": {
+    "default_icon": "icon32.png",
+    "default_title": "Create Shared Bookmark",
+    "show_matches": ["<all_urls>"]
+  },
+
+  "background": {
+    "scripts": ["shared-bookmarks.js"]
+  }
+}

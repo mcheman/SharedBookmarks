@@ -29,6 +29,6 @@ async fn index(db: web::Data<SqlitePool>, hb: web::Data<Handlebars<'_>>) -> impl
 
     let body = hb
         .render("index", &json!({ "posts": posts }))
-        .expect("ahhh");
+        .expect("index.hbs should exist in ./templates and contain valid handlebars syntax");
     HttpResponse::Ok().body(body)
 }

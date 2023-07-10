@@ -21,10 +21,11 @@ DATABASE_URL="sqlite:shared-bookmarks.db"
 cargo install sqlx-cli
 ```
 
-3. Create the database
+3. Create and migrate the database
 
 ```bash
 sqlx db create
+sqlx migrate run
 ```
 
 4. Start the application

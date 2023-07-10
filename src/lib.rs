@@ -1,10 +1,12 @@
+use crate::api::{add_post};
+use crate::view::index;
+use actix_cors::Cors;
 use actix_web::dev::Server;
+use actix_web::http::header;
 use actix_web::{web, App, HttpServer};
+use handlebars::Handlebars;
 use sqlx::SqlitePool;
 use std::net::TcpListener;
-use handlebars::Handlebars;
-use crate::api::add_post;
-use crate::view::index;
 
 mod api;
 mod view;
@@ -15,14 +17,28 @@ pub fn run_server(listener: TcpListener, db_pool: SqlitePool) -> Result<Server, 
     let addr = listener.local_addr().unwrap();
 
     let mut handlebars = Handlebars::new();
-    handlebars.register_templates_directory(".hbs", "./templates").unwrap();
+    handlebars
+        .register_templates_directory(".hbs", "./templates")
+        .unwrap();
+
+
 
     let server = HttpServer::new(move || {
+        let cors = Cors::default()
+            .allow_any_origin()
+            .allowed_methods(vec!["POST"])
+            .allowed_header(header::CONTENT_TYPE)
+            .max_age(3600);
+
         App::new()
             .app_data(web::Data::new(db_pool.clone()))
             .app_data(web::Data::new(handlebars.clone()))
             .service(index)
-            .service(web::scope("/api").service(add_post))
+            .service(
+                web::scope("/api")
+                    .wrap(cors)
+                    .service(add_post)
+            )
     })
     .listen(listener)?
     .run();
