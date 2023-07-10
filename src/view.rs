@@ -1,4 +1,5 @@
 use actix_web::{get, web, HttpResponse, Responder};
+use chrono::{TimeZone, Local};
 use handlebars::Handlebars;
 use serde::Serialize;
 use serde_json::json;
@@ -8,7 +9,7 @@ use sqlx::SqlitePool;
 struct Post {
     url: String,
     title: String,
-    created: i64,
+    created_formatted: String,
 }
 
 #[get("/")]
@@ -22,7 +23,7 @@ async fn index(db: web::Data<SqlitePool>, hb: web::Data<Handlebars<'_>>) -> impl
             .map(|r| Post {
                 url: r.url.clone(),
                 title: r.title.clone(),
-                created: r.created,
+                created_formatted: Local.timestamp_opt(r.created, 0).unwrap().to_string(),
             })
             .collect();
 
