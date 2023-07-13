@@ -7,6 +7,7 @@ use actix_web::{web, App, HttpServer};
 use handlebars::Handlebars;
 use sqlx::SqlitePool;
 use std::net::TcpListener;
+use actix_files as fs;
 
 mod api;
 mod view;
@@ -39,6 +40,7 @@ pub fn run_server(listener: TcpListener, db_pool: SqlitePool) -> Result<Server, 
                     .wrap(cors)
                     .service(add_post)
             )
+            .service(fs::Files::new("/css", "public/css"))
     })
     .listen(listener)?
     .run();

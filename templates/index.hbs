@@ -2,13 +2,23 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
+
+    <link rel="stylesheet" href="/css/main.css" />
+
     <title>Shared Bookmarks</title>
 </head>
 
 <body>
-    {{#each posts}}
-        <p><a href="{{url}}">{{title}}</a> {{created_formatted}}</p>
-    {{/each}}
+{{#each posts}}
+    <p>
+
+        <a href="{{url}}"><img src="{{favicon_url}}"> {{title}}</a>
+        <span style="flex-grow: 1"><!--spacer--></span>
+        <span>
+            {{created_formatted}}
+        </span>
+    </p>
+{{/each}}
 </body>
 </html>

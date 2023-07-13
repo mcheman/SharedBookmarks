@@ -5,7 +5,9 @@ use sqlx::SqlitePool;
 #[derive(Deserialize)]
 pub struct UnvalidatedPost {
     url: String,
-    title: String
+    title: String,
+    favicon_url: Option<String>,
+    kk: String
 }
 
 #[post("/addPost")]
@@ -14,11 +16,16 @@ pub async fn add_post(db: web::Data<SqlitePool>, post: web::Json<UnvalidatedPost
 
     println!("Received post: {} {}", post.url, post.title);
 
+    if post.kk != "Oopai4aiphaiZ7shang4Tu5i" {
+        return HttpResponse::BadRequest().finish();
+    }
+
     let result = sqlx::query!(
-        "INSERT INTO posts (url, title, created)
-             VALUES (?1, ?2, unixepoch())",
+        "INSERT INTO posts (url, title, favicon_url, created)
+             VALUES (?1, ?2, ?3, unixepoch())",
         post.url,
-        post.title
+        post.title,
+        post.favicon_url
     )
     .execute(db.get_ref())
     .await;

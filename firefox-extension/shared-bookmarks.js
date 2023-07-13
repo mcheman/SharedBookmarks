@@ -18,7 +18,9 @@ b.pageAction.onClicked.addListener(async () => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             url: tab.url,
-            title: tab.title
+            title: tab.title,
+            favicon_url: tab.favIconUrl || null,
+            kk: 'Oopai4aiphaiZ7shang4Tu5i'
             // todo add tab.faviconUrl
         })
     });

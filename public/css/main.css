@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    background-color: #EEE;
+}
+
+img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+span {
+    color: #888;
+}
+
+p {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    margin: 10px;
+    background-color: #FFF;
+    border-radius: 16px;
+}
+
+a {
+    display: flex;
+    align-items: center;
+}
