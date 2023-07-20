@@ -1,0 +1,18 @@
+---
+
+- name: reload firewalld
+  systemd:
+    name: firewalld.service
+    state: reloaded
+
+- name: enable quic in selinux
+  shell: |
+    semanage port -D
+    semanage port -a -t http_port_t -p udp 443
+
+- name: reload nginx
+  systemd:
+    name: nginx.service
+    daemon_reload: yes
+    state: reloaded
+    enabled: yes

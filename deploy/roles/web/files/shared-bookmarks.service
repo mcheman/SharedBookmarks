@@ -1,0 +1,16 @@
+[Unit]
+Description="Run the shared-bookmarks backend server"
+
+[Service]
+# Create a user on demand that is heavily restricted from accessing most of the system.
+DynamicUser=yes
+# Create a persistent directory at /var/lib/shared-bookmarks that will contain the database for the application
+StateDirectory=shared-bookmarks
+WorkingDirectory=/var/www/shared-bookmarks
+ExecStart=/usr/bin/shared-bookmarks
+# Ensure that the application always restarts on failure
+Restart=on-failure
+
+[Install]
+# Ensure that this service starts when the server boots up
+WantedBy=multi-user.target

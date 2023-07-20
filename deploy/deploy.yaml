@@ -1,0 +1,12 @@
+---
+- name: configure and deploy the webservers and application code
+  hosts: all
+  gather_facts: no
+  remote_user: root
+
+  roles:
+    - role: nginx
+      tags: nginx
+    - role: web
+      tags: web
+

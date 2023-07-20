@@ -1,0 +1,53 @@
+---
+# Install the application
+
+- name: Create application directory
+  file:
+    path: /var/www/shared-bookmarks
+    state: directory
+    mode: '0755'
+
+
+
+- name: Add prod.db to .env
+  ansible.builtin.lineinfile:
+    path: /var/www/shared-bookmarks/.env
+    regexp: '^DATABASE_URL='
+    line: DATABASE_URL="/var/lib/shared-bookmarks/prod.db"
+    create: yes
+
+- name: Copy application code
+  synchronize:
+    src: "{{ item }}"
+    dest: /var/www/shared-bookmarks
+    delete: yes
+    rsync_opts:
+      - "--chmod=Dg+x,u+w,Fog-wx,+r"
+      - "--chown=root:root"
+      # excludes generated gzip files from being deleted and getting detected as a change
+      - "--filter='P *.gz'"
+  loop:
+    - ../public
+    - ../templates
+  notify:
+    - gzip files
+    - fix selinux permissions
+    - restart application
+
+- name: Make server executable
+  copy:
+    src: ../target/release/shared-bookmarks
+    dest: /usr/bin/shared-bookmarks
+    mode: +x,-rw
+
+
+- name: Copy application service file
+  copy:
+    src: shared-bookmarks.service
+    dest: /usr/lib/systemd/system/
+  notify: restart application
+
+- name: Webserver running (to ensure state directory created)
+  systemd:
+    name: shared-bookmarks.service
+    state: started

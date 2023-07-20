@@ -1,0 +1,18 @@
+---
+
+# gzip files for nginx's gzip_static
+- name: gzip files
+  command: "{{ item }}"
+  loop:
+    - "find /var/www/shared-bookmarks/public -name '*.gz' -exec rm {} ;"
+    - "find /var/www/shared-bookmarks/public -type f ( -name '*.css' -o -name '*.js' -o -name '*.html' ) -exec gzip --best --keep {} ;"
+
+- name: fix selinux permissions
+  command: restorecon -R /var/www/shared-bookmarks
+
+- name: restart application
+  systemd:
+    name: shared-bookmarks.service
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
