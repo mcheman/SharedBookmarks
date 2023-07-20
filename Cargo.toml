@@ -9,7 +9,6 @@ edition = "2021"
 path = "src/main.rs"
 name = "shared-bookmarks"
 
-
 [dependencies]
 actix-web = "4.3.1"
 

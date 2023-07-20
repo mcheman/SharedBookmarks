@@ -22,13 +22,14 @@ pub fn run_server(listener: TcpListener, db_pool: SqlitePool) -> Result<Server, 
         .register_templates_directory(".hbs", "./templates")
         .unwrap();
 
+    // todo prod.db is created manually and migrated manually currently
 
 
     let server = HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
             .allowed_methods(vec!["POST"])
-            .allowed_header(header::CONTENT_TYPE)
+            .allow_any_header()
             .max_age(3600);
 
         App::new()

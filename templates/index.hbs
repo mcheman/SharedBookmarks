@@ -3,22 +3,36 @@
 
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
     <title>Shared Bookmarks</title>
 </head>
 
 <body>
-{{#each posts}}
-    <p>
+<h1>Shared Bookmarks</h1>
 
-        <a href="{{url}}"><img src="{{favicon_url}}"> {{title}}</a>
-        <span style="flex-grow: 1"><!--spacer--></span>
-        <span>
-            {{created_formatted}}
-        </span>
-    </p>
-{{/each}}
+<div class="posts">
+    {{#each posts}}
+        <p>
+            <a href="{{url}}" class="icon bubble">
+                {{#if favicon_url}}
+                    <img src="{{favicon_url}}" class="icon">
+                {{else}}
+                    <span></span>
+                {{/if}}
+            </a>
+            <span class="bubble">
+                <a href="{{url}}">
+                    {{title}}
+                </a>
+                <span class="time">
+                    {{created_formatted}}
+                </span>
+            </span>
+        </p>
+    {{/each}}
+</div>
 </body>
 </html>
